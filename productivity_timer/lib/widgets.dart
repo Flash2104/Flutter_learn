@@ -11,7 +11,7 @@ class ProductivityButton extends StatelessWidget {
     @required this.text,
     @required this.onPressed,
     @required this.size
-  })
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,6 @@ class ProductivityButton extends StatelessWidget {
       color: this.color,
       onPressed: this.onPressed,
       minWidth: this.size,
-    )
+    );
   }
 }
