@@ -8,6 +8,9 @@ class CountDownTimer {
   Timer timer;
   Duration _time;
   Duration _fullTime;
+  int _workTimeMinutes = 30;
+  int _shortBreak = 5;
+  int _longBreak = 20;
 
   Stream<TimerModel> stream() async* {
     yield* Stream.periodic(Duration(seconds: 1), (int a) {
@@ -19,12 +22,32 @@ class CountDownTimer {
           _isActive = false;
         }
       }
-      time = returnTime(this._time);
+      time = _returnTime(this._time);
       return TimerModel(time, this._radius);
     });
   }
 
-  String returnTime(Duration t) {
+  void startWork() {
+    _radius = 1;
+    _fullTime = _time = Duration(minutes: _workTimeMinutes, seconds: 0);
+  }
+
+  void startBreak(bool short) {
+    _radius = 1;
+    _fullTime = _time = Duration(minutes: short ? _shortBreak : _longBreak, seconds: 0);
+  }
+
+  void startTimer() {
+    if(_time.inSeconds > 0) {
+      _isActive = true;
+    }
+  }
+
+  void stopTimer() {
+    _isActive = false;
+  }
+
+  String _returnTime(Duration t) {
     String minutes = (t.inMinutes < 10)
         ? '0' + t.inMinutes.toString()
         : t.inMinutes.toString();
@@ -33,4 +56,6 @@ class CountDownTimer {
         (numSeconds < 10) ? '0' + numSeconds.toString() : numSeconds.toString();
     return minutes + ':' + seconds;
   }
+
+
 }
