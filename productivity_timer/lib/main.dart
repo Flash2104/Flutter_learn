@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'My Work Timer',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
         ),
@@ -22,9 +23,7 @@ class MyApp extends StatelessWidget {
 class TimerHomePage extends StatelessWidget {
   final double _defaultPadding = 5.0;
   final CountDownTimer _timer = CountDownTimer();
-  final List<PopupMenuItem<String>> _menuItems = List.of(
-      [PopupMenuItem(child: Text('Settings'), value: 'Settings')],
-      growable: false);
+  final List<PopupMenuItem<String>> _menuItems = List.of([PopupMenuItem(child: Text('Settings'), value: 'Settings')], growable: false);
 
   @override
   Widget build(BuildContext context) {
@@ -51,27 +50,16 @@ class TimerHomePage extends StatelessWidget {
                   children: [
                     Padding(padding: EdgeInsets.all(_defaultPadding)),
                     Expanded(
-                      child: ProductivityButton(
-                          color: Color(0xff009688),
-                          text: 'Work',
-                          onPressed: _timer.startWork),
+                      child: ProductivityButton(color: Color(0xff009688), text: 'Work', onPressed: _timer.startWork),
                     ),
                     Padding(
                       padding: EdgeInsets.all(_defaultPadding),
                     ),
-                    Expanded(
-                        child: ProductivityButton(
-                            color: Color(0xff607D8B),
-                            text: "Short Break",
-                            onPressed: () => _timer.startBreak(true))),
+                    Expanded(child: ProductivityButton(color: Color(0xff607D8B), text: "Short Break", onPressed: () => _timer.startBreak(true))),
                     Padding(
                       padding: EdgeInsets.all(_defaultPadding),
                     ),
-                    Expanded(
-                        child: ProductivityButton(
-                            color: Color(0xff455A64),
-                            text: "Long Break",
-                            onPressed: () => _timer.startBreak(false))),
+                    Expanded(child: ProductivityButton(color: Color(0xff455A64), text: "Long Break", onPressed: () => _timer.startBreak(false))),
                     Padding(
                       padding: EdgeInsets.all(_defaultPadding),
                     )
@@ -82,9 +70,7 @@ class TimerHomePage extends StatelessWidget {
                   initialData: 'init',
                   stream: _timer.stream(),
                   builder: (context, snapshot) {
-                    TimerModel model = (snapshot.data == 'init')
-                        ? TimerModel('00:00', 1)
-                        : snapshot.data;
+                    TimerModel model = (snapshot.data == 'init') ? TimerModel('00:00', 1) : snapshot.data;
                     return CircularPercentIndicator(
                       radius: availableWidth / 2,
                       lineWidth: 10.0,
@@ -101,19 +87,12 @@ class TimerHomePage extends StatelessWidget {
                   children: [
                     Padding(padding: EdgeInsets.all(_defaultPadding)),
                     Expanded(
-                      child: ProductivityButton(
-                          color: Color(0xff212121),
-                          text: 'Stop',
-                          onPressed: _timer.stopTimer),
+                      child: ProductivityButton(color: Color(0xff212121), text: 'Stop', onPressed: _timer.stopTimer),
                     ),
                     Padding(
                       padding: EdgeInsets.all(_defaultPadding),
                     ),
-                    Expanded(
-                        child: ProductivityButton(
-                            color: Color(0xff009688),
-                            text: 'Restart',
-                            onPressed: _timer.startTimer)),
+                    Expanded(child: ProductivityButton(color: Color(0xff009688), text: 'Start', onPressed: _timer.startTimer)),
                     Padding(
                       padding: EdgeInsets.all(_defaultPadding),
                     ),

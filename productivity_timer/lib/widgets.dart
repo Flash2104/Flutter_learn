@@ -6,12 +6,7 @@ class ProductivityButton extends StatelessWidget {
   final double size;
   final VoidCallback onPressed;
 
-  ProductivityButton({
-    @required this.color,
-    @required this.text,
-    @required this.onPressed,
-    @required this.size
-  });
+  ProductivityButton({@required this.color, @required this.text, @required this.onPressed, @required this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +33,6 @@ class SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-        child: Text(this._text, style: TextStyle(color: Colors.white)),
-        color: this._color,
-        onPressed: () => this._func(_key, _value)
-    );
+        child: Text(this._text, style: TextStyle(color: Colors.white)), color: this._color, onPressed: () => this._func(_key, _value));
   }
 }
