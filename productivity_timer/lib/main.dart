@@ -79,10 +79,10 @@ class TimerHomePage extends StatelessWidget {
                 ),
                 Expanded(
                     child: StreamBuilder(
-                  initialData: '00:00',
+                  initialData: 'init',
                   stream: _timer.stream(),
                   builder: (context, snapshot) {
-                    TimerModel model = (snapshot.data == '00:00')
+                    TimerModel model = (snapshot.data == 'init')
                         ? TimerModel('00:00', 1)
                         : snapshot.data;
                     return CircularPercentIndicator(

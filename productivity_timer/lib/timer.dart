@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:productivity_timer/settings.dart';
 import 'package:productivity_timer/timermodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CountDownTimer {
   double _radius = 1;
@@ -27,7 +29,8 @@ class CountDownTimer {
     });
   }
 
-  void startWork() {
+  void startWork() async {
+    await _readSettings();
     _radius = 1;
     _fullTime = _time = Duration(minutes: _workTimeMinutes, seconds: 0);
   }
@@ -45,6 +48,16 @@ class CountDownTimer {
 
   void stopTimer() {
     _isActive = false;
+  }
+  
+  _readSettings() async {
+    var pref = await SharedPreferences.getInstance();
+    var workTime = pref.getInt(WORKTIME);
+    var short = pref.getInt(SHORTBREAK);
+    var long = pref.getInt(LONGBREAK);
+    _workTimeMinutes = workTime == null ? 30 : workTime;
+    _shortBreak = short == null ? 5 : short;
+    _longBreak = long == null ? 20 : long;
   }
 
   String _returnTime(Duration t) {
