@@ -17,7 +17,9 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Simple Pong'),
         ),
-        body: PongScenePage()
+        body: SafeArea(
+          child: PongScenePage(),
+        )
       ),
     );
   }
