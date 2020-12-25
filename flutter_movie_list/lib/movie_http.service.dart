@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-class MovieHttpProxy {
+class MovieHttpService {
   final String _urlApiKey = 'api_key=c7d7585faad21b08a085bd6dde6cf0ce';
   final String _urlBase = 'https://api.themoviedb.org/3/movie';
   final String _urlUpcoming = '/upcoming';
