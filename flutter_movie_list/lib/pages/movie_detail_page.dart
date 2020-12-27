@@ -28,7 +28,7 @@ class MovieDetailPage extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                child: ListTile(title: Text('Жанры'), subtitle: Text(_genres.join(", ")),),
+                child: ListTile(title: Text('Жанр'), subtitle: Text(_genres.join(", "), style: TextStyle(color: Colors.lightBlue)),),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
