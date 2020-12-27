@@ -5,14 +5,16 @@ import 'package:flutter_movie_list/services/movie_http.service.dart';
 
 class MovieDetailPage extends StatelessWidget {
   final MovieDto _movieDto;
+  final List<String> _genres;
   final MovieHttpService _httpService = MovieHttpService();
 
-  MovieDetailPage(this._movieDto);
+  MovieDetailPage(this._movieDto, this._genres);
 
   @override
   Widget build(BuildContext context) {
     CachedNetworkImage image = _httpService.getOriginalImage(_movieDto.posterPath);
     double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(title: Text(_movieDto.title), leading: image),
       body: SingleChildScrollView(
@@ -21,13 +23,17 @@ class MovieDetailPage extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                height: height/ 1.5,
+                height: height / 1.5,
                 child: image,
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
+                child: ListTile(title: Text('Жанры'), subtitle: Text(_genres.join(", ")),),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(_movieDto.overview),
-              )
+              ),
             ],
           ),
         ),
