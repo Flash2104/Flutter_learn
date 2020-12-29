@@ -49,7 +49,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                 setState(() {
                   _lists.removeAt(index);
                 });
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Категория \"${list.name}\" удалена!')));
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Категория \"${list.name}\" удалена!'), duration: Duration(seconds: 1)));
               },
               child: ListTile(
                 onTap: () {
