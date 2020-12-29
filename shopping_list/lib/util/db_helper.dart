@@ -29,6 +29,21 @@ class DbHelper {
     return _database;
   }
 
+  Future<List<DbProductList>> getLists() async {
+    _database = await openDb();
+    List<Map<String, dynamic>> maps = await _database.query(_listsTableName);
+    List<DbProductList> lists = maps.map((e) => DbProductList.fromMap(e)).toList();
+    lists.sort((a, b) => a.priority.compareTo(b.priority));
+    return lists ?? List();
+  }
+
+  Future<List<DbProductItem>> getItemsByList(int listId) async {
+    _database = await openDb();
+    List<Map<String, dynamic>> maps = await _database.query(_itemsTableName, where: 'productLists = ?', whereArgs: [listId]);
+    List<DbProductItem> items = maps.map((e) => DbProductItem.fromMap(e)).toList();
+    return items ?? List();
+  }
+
   Future<int> insertList(DbProductList list) async {
     return await _database.insert(_listsTableName, list.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
@@ -37,17 +52,27 @@ class DbHelper {
     return await _database.insert(_itemsTableName, item.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  Future test() async {
+  Future deleteItem(int id) async {
     _database = await openDb();
-    await _database.execute('INSERT INTO $_listsTableName VALUES (NULL, "Fruit", 2)');
-    await _database.execute('INSERT INTO $_itemsTableName VALUES (NULL, 0, "Apples", "2 kg", "Green is better")');
-    List lists = await _database.query('product_lists');
-    List items = await _database.query('product_items');
-    print('Lists 0: ${lists[0].toString()}');
-    print('Items 0: ${items[0].toString()}');
+    await _database.delete(_itemsTableName, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future deleteList(int id) async {
+    _database = await openDb();
+    await _database.delete(_listsTableName, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<bool> test() async {
+    _database = await openDb();
+    List lists = await _database.query(_listsTableName);
+    return lists.length > 0;
   }
 
   Future removeDb() async {
     await deleteDatabase(join(await getDatabasesPath(), _dbName));
+  }
+
+  Future close() async {
+    await _database.close();
   }
 }

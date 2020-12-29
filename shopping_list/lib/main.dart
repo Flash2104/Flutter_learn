@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_list/util/dbhelper.dart';
+import 'package:shopping_list/models/db/product_item.dart';
+import 'package:shopping_list/models/db/product_list.dart';
+import 'package:shopping_list/util/db_helper.dart';
+import 'package:shopping_list/views/categories_view.dart';
+
+final String _shoppingListDbName = 'shopping.db';
 
 void main() {
-
-  runApp(MyApp());
+  runApp(MainPage());
 }
 
-class MyApp extends StatelessWidget {
+class MainPage extends StatelessWidget {
+  final DbHelper _dbHelper = DbHelper(_shoppingListDbName);
+
   @override
   Widget build(BuildContext context) {
-    var dbHelper = new DbHelper('shopping.db');
-    dbHelper.removeDb();
-    dbHelper.test();
     return MaterialApp(
       title: 'Список покупок',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: Container(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Категории'),
+        ),
+        body: CategoriesView(_dbHelper),
+      ),
     );
   }
 }
-
 
