@@ -78,7 +78,7 @@ class DbHelper {
   Future deleteList(int id) async {
     _database = await openDb();
     await _database.delete(_itemsTableName, where: 'productLists = ?', whereArgs: [id]);
-    // await _database.delete(_listsTableName, where: 'id = ?', whereArgs: [id]);
+    await _database.delete(_listsTableName, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<bool> test() async {

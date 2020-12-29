@@ -99,7 +99,8 @@ class ListDialog {
   ListDialog(this._dbHelper, this._submitFunc);
 
   Future showAddDialog(BuildContext context) async {
-    await this._showAddOrEditDialog(context, null, isNew: true);
+    var list = DbProductList(0, '', 1);
+    await this._showAddOrEditDialog(context, list, isNew: true);
   }
 
   Future showEditDialog(BuildContext context, DbProductList list) async {

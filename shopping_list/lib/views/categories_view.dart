@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_list/models/db/product_list.dart';
+import 'package:shopping_list/util/custom_dialogs.dart';
 import 'package:shopping_list/util/db_helper.dart';
 import 'package:shopping_list/views/items_view.dart';
 
@@ -16,47 +17,56 @@ class _CategoriesViewState extends State<CategoriesView> {
   final DbHelper _dbHelper;
   List<DbProductList> _lists = List();
 
+  ListDialog _dialog;
+
   _CategoriesViewState(this._dbHelper);
 
   @override
   void initState() {
     this._init();
+    _dialog = ListDialog(_dbHelper, this._fillLists);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-key: ,
-
+    return Container(
       child: ListView.builder(
         itemCount: (_lists != null) ? _lists.length + 1 : 1,
         itemBuilder: (context, index) {
           if (index >= _lists.length) {
-            return Card(
-              color: Colors.white,
-              elevation: 2.0,
-              child: ListTile(
-                title: Icon(Icons.add_outlined),
-                onTap: () {},
-              ),
+            return RaisedButton(
+              child: Icon(Icons.add_outlined),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              onPressed: () => _dialog.showAddDialog(context),
             );
           }
           var list = _lists[index];
-          return ListTile(
-            onTap: () {
-              var route = MaterialPageRoute(builder: (ctx) => ItemsView(_dbHelper, list));
-              Navigator.push(context, route);
-            },
-            title: Text(list.name),
-            leading: CircleAvatar(
-              child: Text(list.priority.toString()),
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {},
-            ),
-          );
+          return Dismissible(
+              key: Key(list.name),
+              onDismissed: (direction) {
+                _dbHelper.deleteList(list.id);
+                setState(() {
+                  _lists.removeAt(index);
+                });
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Категория \"${list.name}\" удалена!')));
+              },
+              child: ListTile(
+                onTap: () {
+                  var route = MaterialPageRoute(builder: (ctx) => ItemsView(_dbHelper, list));
+                  Navigator.push(context, route);
+                },
+                title: Text(list.name),
+                leading: CircleAvatar(
+                  child: Text(list.priority.toString()),
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    _dialog.showEditDialog(context, list);
+                  },
+                ),
+              ));
         },
       ),
     );
@@ -80,6 +90,10 @@ key: ,
       int listId6 = await _dbHelper.insertList(list6);
       int listId7 = await _dbHelper.insertList(list7);
     }
+    await _fillLists();
+  }
+
+  Future _fillLists() async {
     var list = await _dbHelper.getLists();
     setState(() {
       _lists = list;

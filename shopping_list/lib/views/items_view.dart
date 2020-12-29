@@ -40,50 +40,46 @@ class _ItemsViewState extends State<ItemsView> {
             itemCount: (_items != null) ? _items.length + 1 : 1,
             itemBuilder: (context, index) {
               if (_items == null || index >= _items?.length) {
-                return Card(
-                  color: Colors.white,
-                  elevation: 2.0,
-                  child: ListTile(
-                    title: Icon(Icons.add_outlined),
-                    onTap: () {
-                      _dialog.showAddDialog(context, _list.id);
-                    },
-                  ),
+                return RaisedButton(
+                  child: Icon(Icons.add_outlined),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  onPressed: () => _dialog.showAddDialog(context, _list.id),
                 );
               }
               var item = _items[index];
-              return ListTile(
-                onTap: () {
-                  _dialog.showEditDialog(context, item);
-                },
-                title: Text(item.name),
-                subtitle: Column(
-                  children: [
-                    item.note != ''
-                        ? Row(
-                            children: [Expanded(child: Text('Заметка: ${item.note}'))],
-                          )
-                        : Row(),
-                    item.quantity != ''
-                        ? Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                'Количество: ${item.quantity}',
-                                style: TextStyle(color: Colors.blue[300]),
-                              ))
-                            ],
-                          )
-                        : Row()
-                  ],
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    _deleteItem(item.id);
+              return Dismissible(
+                  key: Key(item.name),
+                  onDismissed: (direction) {
+                    _dbHelper.deleteItem(item.id);
+                    setState(() {
+                      _items.removeAt(index);
+                    });
                   },
-                  icon: Icon(Icons.delete),
-                ),
-              );
+                  child: ListTile(
+                      onTap: () {
+                        _dialog.showEditDialog(context, item);
+                      },
+                      title: Text(item.name),
+                      subtitle: Column(
+                        children: [
+                          item.note != ''
+                              ? Row(
+                                  children: [Expanded(child: Text('Заметка: ${item.note}'))],
+                                )
+                              : Row(),
+                          item.quantity != ''
+                              ? Row(
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                      'Количество: ${item.quantity}',
+                                      style: TextStyle(color: Colors.blue[300]),
+                                    ))
+                                  ],
+                                )
+                              : Row()
+                        ],
+                      )));
             },
           ),
         ));
@@ -97,7 +93,6 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   Future _deleteItem(int id) async {
-    await _dbHelper.deleteItem(id);
     await _fillItems();
   }
 }
