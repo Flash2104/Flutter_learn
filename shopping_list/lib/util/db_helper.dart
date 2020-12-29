@@ -1,16 +1,34 @@
 import 'package:path/path.dart';
+import 'package:shopping_list/main.dart';
 import 'package:shopping_list/models/db/product_item.dart';
 import 'package:shopping_list/models/db/product_list.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
   final int _version = 1;
-  final String _dbName;
+  String _dbName;
   final String _listsTableName = 'product_lists';
   final String _itemsTableName = 'product_items';
   Database _database;
 
-  DbHelper(this._dbName);
+  static final DbHelper _shoppingDbHelper = DbHelper._shoppingList();
+
+  DbHelper._shoppingList() {
+    this._dbName = shoppingListDbName;
+  }
+
+  factory DbHelper(dbName) {
+    switch (dbName) {
+      case shoppingListDbName:
+        {
+          return _shoppingDbHelper;
+        }
+      default:
+        {
+          return _shoppingDbHelper;
+        }
+    }
+  }
 
   Future<Database> openDb() async {
     if (_database == null) {
@@ -59,7 +77,8 @@ class DbHelper {
 
   Future deleteList(int id) async {
     _database = await openDb();
-    await _database.delete(_listsTableName, where: 'id = ?', whereArgs: [id]);
+    await _database.delete(_itemsTableName, where: 'productLists = ?', whereArgs: [id]);
+    // await _database.delete(_listsTableName, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<bool> test() async {

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_list/models/db/product_item.dart';
-import 'package:shopping_list/models/db/product_list.dart';
 import 'package:shopping_list/util/db_helper.dart';
 import 'package:shopping_list/views/categories_view.dart';
 
-final String _shoppingListDbName = 'shopping.db';
+const String shoppingListDbName = 'shopping.db';
 
 void main() {
   runApp(MainPage());
 }
 
 class MainPage extends StatelessWidget {
-  final DbHelper _dbHelper = DbHelper(_shoppingListDbName);
+  final DbHelper _dbHelper = DbHelper(shoppingListDbName);
 
   @override
   Widget build(BuildContext context) {

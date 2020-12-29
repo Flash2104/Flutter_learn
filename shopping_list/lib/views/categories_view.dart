@@ -26,7 +26,9 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Dismissible(
+key: ,
+
       child: ListView.builder(
         itemCount: (_lists != null) ? _lists.length + 1 : 1,
         itemBuilder: (context, index) {
@@ -58,12 +60,6 @@ class _CategoriesViewState extends State<CategoriesView> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _dbHelper.close();
-    super.dispose();
   }
 
   Future _init() async {
