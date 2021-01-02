@@ -44,6 +44,7 @@ class _MainBodyViewState extends State<MainBodyView> {
     FirebaseFirestore fs = FirebaseFirestore.instance;
     String data = '';
     await fs.collection('event_details').get().then((value) {
+      value.
       value.docs.forEach((doc) {
         data += 'DocumentId: ${doc.id.toString()}\r\n';
         doc.data().forEach((key, value) {
