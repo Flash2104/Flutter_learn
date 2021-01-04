@@ -1,19 +1,17 @@
 class EventDetailsModel {
-  String _id;
+  String id;
   String _description;
   String _date;
   String _startTime;
   String _endTime;
   String _speaker;
-  String _isFavorite;
-
-  String get id => _id;
+  bool _isFavorite;
 
   String get description => _description;
 
   String get date => _date;
 
-  String get isFavorite => _isFavorite;
+  bool get isFavorite => _isFavorite;
 
   String get speaker => _speaker;
 
@@ -21,10 +19,10 @@ class EventDetailsModel {
 
   String get startTime => _startTime;
 
-  EventDetailsModel._(this._id, this._description, this._date, this._startTime, this._endTime, this._speaker, this._isFavorite);
+  EventDetailsModel._(this.id, this._description, this._date, this._startTime, this._endTime, this._speaker, this._isFavorite);
 
   EventDetailsModel.fromMap(Map<String, dynamic> map){
-    _id = map['id'];
+    id = map['id'];
     _description = map['description'];
     _date = map['date'];
     _isFavorite = map['is_favorite'];
@@ -35,8 +33,8 @@ class EventDetailsModel {
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    if(_id != null) {
-      map['id'] = _id;
+    if(id != null) {
+      map['id'] = id;
     }
     map['description'] = _description;
     map['date'] = _date;

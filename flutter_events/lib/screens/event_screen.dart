@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_events/models/event_details.dart';
 
 class EventScreen extends StatelessWidget {
   @override
@@ -16,27 +19,48 @@ class EventList extends StatefulWidget {
 }
 
 class _EventListState extends State<EventList> {
+  List<EventDetailsModel> _events = List<EventDetailsModel>();
+
   @override
-  Widget build(BuildContext context) {
-    return Container();
+  void initState() {
+    if(mounted) {
+      this._fillEvents();
+    }
+    super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: _events != null ? _events.length : 0,
+        itemBuilder: (context, index) {
+          var event = _events[index];
+          if(event.description == null) {
+            return ListTile();
+          }
+          return ListTile(
+            title: Text(event.description),
+            subtitle: Text('Дата: ${event.date} - Начало: ${event.startTime} - Конец: ${event.endTime}'),
+          );
+        },
+    );
+  }
 
-  Future testData() async {
+  Future _fillEvents() async {
     await Firebase.initializeApp();
     FirebaseFirestore fs = FirebaseFirestore.instance;
-    String data = '';
+    List<EventDetailsModel> events = List<EventDetailsModel>();
     await fs.collection('event_details').get().then((value) {
-      value.docs.forEach((doc) {
-        data += 'DocumentId: ${doc.id.toString()}\r\n';
-        doc.data().forEach((key, value) {
-          data += '$key: ${value.toString()}\r\n';
-        });
+      value.docs?.forEach((doc) {
+        var event = EventDetailsModel.fromMap(doc.data());
+        if (event.id == null) {
+          event.id = doc.id;
+        }
+        events.add(event);
       });
     });
     setState(() {
-      _data = data ?? 'EMPTY';
+      _events = events ?? 'EMPTY';
     });
   }
 }
-
