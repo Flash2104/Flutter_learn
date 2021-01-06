@@ -47,7 +47,6 @@ class _EventListState extends State<EventList> {
   }
 
   Future _fillEvents() async {
-    await Firebase.initializeApp();
     FirebaseFirestore fs = FirebaseFirestore.instance;
     List<EventDetailsModel> events = List<EventDetailsModel>();
     await fs.collection('event_details').get().then((value) {
