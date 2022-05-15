@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_docs_first_app/widgets/gesture-button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,8 +18,19 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.amber,
         ),
         home: Scaffold(
-          appBar: AppBar(title: const Text('Startup Name Generator')),
-          body: const Center(child: RandomWords()),
+          appBar: AppBar(
+            leading: const IconButton(onPressed: null, icon: Icon(Icons.menu)),
+            title: const Text('Startup Name Generator'),
+            actions: const [
+              IconButton(icon: Icon(Icons.search), onPressed: null)
+            ],
+          ),
+          body: Column(children: const [
+            Center(child: GestureButton()),
+            SizedBox(height: 600, child: RandomWords())
+          ]),
+          floatingActionButton: const FloatingActionButton(
+              onPressed: null, child: Icon(Icons.add)),
         ));
   }
 }
