@@ -48,13 +48,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter layouts Demo',
+      title: 'Олег Карибов',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.blue,
+          appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              titleTextStyle: TextStyle(
+                  color: Colors.black, fontSize: 24, fontFamily: 'cursive'))),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter layouts Demo'),
+          title: const Text('Карибов Олег Вадимович'),
         ),
         body: Card(
             margin: const EdgeInsets.all(10),
@@ -63,9 +66,10 @@ class MyApp extends StatelessWidget {
             //     borderRadius: const BorderRadius.all(Radius.circular(10))),
             child: ListView(
               children: [
-                Image.asset('assets/images/lake.png',
-                    width: 600, height: 240, fit: BoxFit.cover),
                 const TitleSection(),
+                const Image(image: AssetImage('assets/images/avatar.jpg')),
+                // Image.asset('assets/images/avatar.jpg',
+                //     width: 600, height: 400, fit: BoxFit.cover),
                 ButtonSection(callbackFunc: onPressedButton),
                 const TextSection()
               ],

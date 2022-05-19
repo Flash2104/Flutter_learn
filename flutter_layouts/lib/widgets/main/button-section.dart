@@ -12,7 +12,7 @@ class ButtonSection extends StatelessWidget {
       padding: const EdgeInsets.all(32),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         _buildButtonColumn(Icons.call, context, 'CALL'),
-        _buildButtonColumn(Icons.near_me, context, 'ROUTE'),
+        _buildButtonColumn(Icons.savings, context, 'DONATE'),
         _buildButtonColumn(Icons.share, context, 'SHARE')
       ]),
     );
